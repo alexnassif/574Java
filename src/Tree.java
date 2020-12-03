@@ -38,14 +38,14 @@ public class Tree {
     public static Tree createTree() {
         Tree tree = new Tree(0);
 
-        for (int i = 1; i < 100000; i++) {
+        for (int i = 1; i < 10000; i++) {
             tree = tree.insert(tree, i);
         }
 
         return tree;
     }
 
-    private void inorder(Tree tree, List<Integer> list) {
+    private void inorder(Tree tree) {
         if (tree == null)
             return;
 
@@ -59,8 +59,6 @@ public class Tree {
             }
             curr = s.pop();
 
-            list.add(curr.value);
-
             curr = curr.right;
         }
     }
@@ -70,20 +68,18 @@ public class Tree {
 
         Tree tree = Tree.createTree();
         Tree tree1 = Tree.createTree();
-        List<Integer> ch = new ArrayList<>();
-        List<Integer> ch1 = new ArrayList<>();
         final long start = System.currentTimeMillis();
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                tree.inorder(tree, ch);
+                tree.inorder(tree);
             }
         });
 
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                tree1.inorder(tree1, ch1);
+                tree1.inorder(tree1);
             }
         });
 
@@ -92,14 +88,11 @@ public class Tree {
         t.join();
         t1.join();
 
-        for (Integer num : ch)
-            System.out.println(num);
-        for (Integer num : ch1)
-            System.out.println(num);
+
 
         final long end = System.currentTimeMillis();
         long finalTime = end - start;
-
+        System.out.print("Seconds ");
         System.out.println(finalTime / 1000.0);
     }
 }
